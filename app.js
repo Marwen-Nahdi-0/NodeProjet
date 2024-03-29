@@ -17,7 +17,7 @@ app.use(session({
    }));
 dotenv.config();
 const  MONGODB_URL= process.env.MONGODB_URL;
-const  port= process.env.PORT || 5000;
+const  port= process.env.PORT || 9000;
 
 //create a middleware for parsing the content of body 
 app.use(express.json())

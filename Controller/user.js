@@ -7,7 +7,8 @@ exports.create = async (req, res) => {
     
     const user = new UserModel({
         username: req.body.username,
-        password : req.body.password
+        password : req.body.password ,
+        email : req.body.email 
     });
     
     await user.save().then(data => {
