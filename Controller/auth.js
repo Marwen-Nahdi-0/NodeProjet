@@ -4,31 +4,36 @@ const User = require('../Models/user');
 
 exports.register =async (req,res)=>{
     try {
-    
+        console.log(req.body.email);
         const {username,password,email}=req.body;
-        const user = new User({username,password,email});
+        const user = new User({username,email,password});
         await user.save();
-        res.status(201).send('User registered successfully');
+        console.log(user)
+        res.render('login',{msg:
+        "Registration success! Login now to access your account. Let's get started!"});
     } catch (error) {
-        res.status(400).send(error.message)
+        res.render('register',{msg:error.message});
     }
 };
 
 //user login 
 exports.login=async (req,res)=>{
+    console.log(req.body);
    try {
     const {username,password}=req.body;
-    const user = await User.findOne({username: username});
+     
+   const user = await User.findOne({username: username});
     if(!user){
-        return res.status(404).send('user not found')
+     res.render('login',{msg:"user not found"});
     }
     const isPasswordMatch =await bcrypt.compare(password,user.password);
   if(!isPasswordMatch){
-    return res.status(401).send('invalid password')
+    res.render('login',{msg:"invalid password"});
   }
    const token = jwt.sign({_id:user._id},process.env.JWT_SECRET);
-   res.send({token:token})
+   res.render('login',{msg:'',token:token})
    } catch (err) {
-    res.status(400).send(err.message)
+    
+    res.render('login',{msg:err.message});
    }
 };

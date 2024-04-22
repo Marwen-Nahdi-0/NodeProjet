@@ -4,7 +4,9 @@ const bcrypt = require("bcryptjs");
 const session = require('express-session');
 const user = require('./routes/user');
 const salle = require('./routes/salle');
+const auth = require('./routes/auth');
 const UserModel = require('./Models/user');
+const reservation = require('./routes/reservation');
 
 //create instance of express
 const app = express();
@@ -20,37 +22,25 @@ const  MONGODB_URL= process.env.MONGODB_URL;
 const  port= process.env.PORT || 9000;
 
 //create a middleware for parsing the content of body 
-app.use(express.json())
+//app.use(express.json())
+app.use(express.urlencoded({extended:false}))
 
-app.use('/user',user)
-app.use('/salle',salle)
+app.use('/user',user);
+app.use('/salle',salle); 
+app.use('/auth',auth);
+app.use('/reservation',reservation);
+app.set('view engine','ejs');
 
 
 
 
-//Login Method
-app.post('/login',async  (req, res) => {
-    const { username, password } = req.body;
-    try {
-    const user =  await UserModel.findOne({ username : username });
-   // User not found
-    if (!user) {
-    return res.status(401).send('Invalid username ');
-    }else{
-   // Compare the provided password with the hashed password stored in the database
-    bcrypt.compare(password, user.password, (err, result) => {
-   if (result) {
-    // Store user data in session
-    req.session.user = user;
-    res.status(200).send('Welcome !! User Connected');
-    } else {
-    res.status(401).send('Invalid  password');
-    }
-    });
-} } catch (error) {
-    res.status(400).json({ error });
-  }
-});
+
+
+app.get('/test',(req,res)=>{
+    res.render('ListReservation');
+})
+
+
 
 
 
