@@ -2,9 +2,9 @@ const express = require('express')
 const UserController = require('../Controller/user')
 const authenticate = require('../middleware/authenticate')
 const router = express.Router();
-router.get('/', authenticate,UserController.findAll);
-router.get('/:id',authenticate ,UserController.findOne);
+router.get('/',UserController.findAll);
+router.get('/:id' ,UserController.findOne);
 router.post('/', UserController.create);
-router.patch('/:id',authenticate, UserController.update);
-router.delete('/:id', authenticate,UserController.destroy);
+router.patch('/:id', UserController.update);
+router.post('/delete/:id', UserController.destroy);
 module.exports = router

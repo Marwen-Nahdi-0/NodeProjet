@@ -26,9 +26,9 @@ exports.create = async (req, res) => {
 exports.findAll = async (req, res) => {
     try {
         const user = await UserModel.find();
-        res.status(200).json(user);
+        res.render('ListUser',{users: user});;
     } catch(error) {
-        res.status(404).json({message: error.message});
+        res.render("404");
     }
 };
 // Find a single User with an id
@@ -72,9 +72,7 @@ exports.destroy = async (req, res) => {
             message: `User not found.`
           });
         } else {
-          res.send({
-            message: "User deleted successfully!"
-          });
+          res.redirect("/user/")
         }
     }).catch(err => {
         res.status(500).send({

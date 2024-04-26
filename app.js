@@ -37,8 +37,12 @@ app.set('view engine','ejs');
 
 
 app.get('/test',(req,res)=>{
-    res.render('ListReservation');
+    res.render('login',{msg:''});
 })
+app.get('/test1',(req,res)=>{
+    res.render('AddSalle');
+})
+
 
 
 

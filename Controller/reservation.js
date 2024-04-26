@@ -1,20 +1,47 @@
 const reservationModel = require('../Models/reservation')
+const salle = require('../Models/salle')
+const nodemailer = require('nodemailer'); 
+
+
+
 // Create and Save a new reservation
 exports.create = async (req, res) => {
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!" });
     }
+      
+const transporter = nodemailer.createTransport({ 
+    service: 'gmail', 
+    auth: { 
+        user: "kacemfazeni@gmail.com", 
+        pass: "drmp omam gvzq pnwb" 
+    } 
+}); 
+  
+   
+transporter.sendMail({
+    to: "nahdimarwen0@gmail.com",
+    subject: 'Verify Account',
+    html: `Click <a href ="" >here</a> to confirm your email ibtehal 3ay. `
+  })
+
     
-    const reservation = new reservationModel({
-        Date: req.body.Date,
-        StartTime: req.body.StartTime,
-        EndTime :req.body.EndTime,
-        client :req.clientId,
-        salle : req.salleId
-       // Date: Date.now().toString()
-    });
+
+    
+     
+    const reservationCheck = await reservationModel.find({Date: req.body.date, salle : req.params.salleId});
+    if(reservationCheck.length > 0){
+        res.render('SelectDate' , { salleId: req.params.salleId ,msg:"There is already a reservation on " + req.body.date});
+    }else{
+        const reservation = new reservationModel({
+            Date: req.body.date,
+            client :req.params.clientId,
+            salle : req.params.salleId
+           // Date: Date.now().toString()
+        });
     
     await reservation.save().then(data => {
+        console.log(data)
         res.send({
             message:"reservation created successfully!!",
             reservation:data
@@ -23,13 +50,13 @@ exports.create = async (req, res) => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating reservation"
         });
-    });
+    });}
 };
 // Retrieve all reservations from the database.
 exports.findAll = async (req, res) => {
     try {
-        const reservations = await reservationModel.find();
-        res.status(200).json(reservations);
+        const reservations = await reservationModel.find().populate('salle')
+        res.render('ListReservation',{reservations:reservations});
     } catch(error) {
         res.status(404).json({message: error.message});
     }
@@ -38,12 +65,14 @@ exports.findAll = async (req, res) => {
 // Retrieve all reservations from the database by clientId.
 exports.findAllbyUser = async (req, res) => {
     try {
-        const reservations = await reservationModel.find(reservation => reservation.client === req.clientId);
+        const reservations = await reservationModel.find(reservation => reservation.client === req.params.id);
         res.status(200).json(reservations);
     } catch(error) {
         res.status(404).json({message: error.message});
     }
 };
+
+
 
 // Find a single reservation 
 exports.findOne = async (req, res) => {
@@ -90,9 +119,7 @@ exports.destroy = async (req, res) => {
             message: `reservation not found.`
           });
         } else {
-          res.send({
-            message: "reservation deleted successfully!"
-          });
+         res.redirect("/reservation/");
         }
     }).catch(err => {
         res.status(500).send({

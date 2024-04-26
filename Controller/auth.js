@@ -31,7 +31,8 @@ exports.login=async (req,res)=>{
     res.render('login',{msg:"invalid password"});
   }
    const token = jwt.sign({_id:user._id},process.env.JWT_SECRET);
-   res.render('login',{msg:'',token:token})
+   
+   res.redirect('/salle/user/')
    } catch (err) {
     
     res.render('login',{msg:err.message});
