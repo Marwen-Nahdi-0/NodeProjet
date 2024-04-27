@@ -16,10 +16,7 @@
       cursor: pointer;
     }
     
-    #reserved-day {
-      background-color: #ff0040;
-      color: #fff;
-    }
+    
   </style>
 </head>
 <body>
@@ -66,18 +63,19 @@
           </div>
         </div>
         <div class="text-center mt-4">
-          <% a="/reservation/"+salleId+"/6626a2fc87616f6aedc68858" %>
+          <% a="/reservation/"+salleId+"/"+user+"/"+tokenData %>
           <form method="POST" action=<%= a %>>
             <input name="date" id="date"  hidden>
+            <input name="salle" id="salle" value=<%= Name %> hidden>
          <button class="btn btn-success" type="submit" onclick="reserve()">Reserve</button>
         </form>
         </div>
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
 
   <!-- Bootstrap Bundle JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-D8r997lNJ3+cuc5TKJwu2yEWUvo8fDTRG+mb3Ujz/AoPLG/ZMz/5v13RPe1PkNTC" crossorigin="anonymous"></script>
   <script>
     // Get current date
     let currentDate = new Date();
@@ -111,7 +109,7 @@
             break;
           } else {
           
-            calendarHtml += `<td class="calendar-day"  onclick="selectDay(${date})">${date}</td>`;
+            calendarHtml += `<td class="calendar-day" onclick="selectDay(${date}, event)">${date}</td>`;
             date++;
           }
         }
@@ -129,7 +127,7 @@
     }
 
     // Function to select a day
-    function selectDay(day) {
+    function selectDay(day,event) {
       document.querySelectorAll('.calendar-day').forEach((element) => {
         element.classList.remove('selected-day');
       });
@@ -138,11 +136,14 @@
 
       document.getElementById('date').value = fulldate;
 
+      
       document.getElementById('selectedDateValue').innerText = day;
       document.getElementById('selectedDate').style.display = 'block';
       document.getElementById('selectedDate').scrollIntoView({ behavior: 'smooth', block: 'start' });
       document.getElementById('salleName').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      event.target.classList.add('selected-day');
+      event.currentTarget.classList.add('selected-day');
+    
+    
     }
 
     // Function to go to previous month
@@ -172,7 +173,7 @@
       if (selectedDate === 'Not selected') {
         alert('Please select a date.');
       } else {
-        alert(`Reservation successful for ${salleName} on ${selectedDate} ${getMonthName(currentMonth)} ${currentYear}`);
+        alert(`Confirme for ${salleName} on ${selectedDate} ${getMonthName(currentMonth)} ${currentYear}`);
       }
     }
 

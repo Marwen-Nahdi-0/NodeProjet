@@ -1,18 +1,20 @@
 const jwt = require('jsonwebtoken');
 
-const authenticate = (req,res,next) =>{
-    const token = req.header('Authorization');
-    if(!token || !token.startsWith('Bearer ')){
-        return res.status(401).send('Authentication failed:invalid token ')
+const authenticate = (req, res, next) => {
+    const tokenData =  req.params.token ;
+    if (!tokenData) {
+        return res.status(401).send('Authentication failed: token not found aa');
     }
+
     try {
-        const tokenData = token.split(' ')[1];
-        const decodedToken = jwt.verify(tokenData,process.env.JWT_SECRET);
-        req.userId=decodedToken._id;
+        // Verify the token
+        const decodedToken = jwt.verify(tokenData, process.env.JWT_SECRET);
+        // Call the next middleware
+        req.userId = decodedToken._id;
         next();
     } catch (error) {
-        return res.status(401).send('Authentication failed:invalid token ')
-
+        return res.status(401).send('Authentication failed: invalid token');
     }
-}
+};
+
 module.exports = authenticate;

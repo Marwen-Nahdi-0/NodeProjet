@@ -29,7 +29,7 @@
           </thead>
           <tbody>
             <% salles.forEach(function(salle) { 
-              a= "/salle/reserve/"+salle.id%>            
+              a= "/salle/reserve/"+salle.id+"/"+tokenData%>            
             <tr>
               <td><%= salle.Name %></td>
               <td><%= salle.Capacity %></td>

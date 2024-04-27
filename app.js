@@ -36,12 +36,24 @@ app.set('view engine','ejs');
 
 
 
-app.get('/test',(req,res)=>{
+app.get('/log',(req,res)=>{
     res.render('login',{msg:''});
 })
-app.get('/test1',(req,res)=>{
+
+app.get('/cree',(req,res)=>{
+    res.render('Register');
+})
+
+app.get('/addSalle/:token',(req,res)=>{
+    res.locals.tokenData = req.params.token;
     res.render('AddSalle');
 })
+app.get('/logout',(req, res) => {
+    // Clear token data from res.locals
+    delete res.locals.tokenData;
+    // Render the logout page
+    res.redirect('/log');
+});
 
 
 

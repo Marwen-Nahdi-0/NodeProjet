@@ -14,7 +14,7 @@
     <h2 class="text-center mt-5 mb-4">Add Salle</h2>
     <div class="row justify-content-center">
       <div class="col-lg-6">
-        <% a="/salle/"+salle.id %>
+        <% a="/salle/"+salle.id+"/"+tokenData %>
         <form method="POST"  action= <%= a %> >
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>

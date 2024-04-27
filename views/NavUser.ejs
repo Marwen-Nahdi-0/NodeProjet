@@ -7,13 +7,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/salle/user">Salles</a>
+            <a class="nav-link" href="/salle/user/<%=tokenData%>">Salles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">My Reservation</a>
+            <a class="nav-link" href="/reservation/user/r/<%=tokenData%>">My Reservation</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Logout</a>
+            <a class="nav-link" href="/logout">Logout</a>
           </li>
         </ul>
       </div>

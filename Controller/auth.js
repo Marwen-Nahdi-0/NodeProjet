@@ -6,7 +6,8 @@ exports.register =async (req,res)=>{
     try {
         console.log(req.body.email);
         const {username,password,email}=req.body;
-        const user = new User({username,email,password});
+        role="Admin"
+        const user = new User({username,email,password,role});
         await user.save();
         console.log(user)
         res.render('login',{msg:
@@ -30,11 +31,17 @@ exports.login=async (req,res)=>{
   if(!isPasswordMatch){
     res.render('login',{msg:"invalid password"});
   }
-   const token = jwt.sign({_id:user._id},process.env.JWT_SECRET);
-   
-   res.redirect('/salle/user/')
+   const decodedToken = jwt.sign({_id:user._id},process.env.JWT_SECRET);
+console.log(decodedToken)
+   res.locals.tokenData = decodedToken;
+   if(user.role=="Admin"){
+    res.render('WelcomeAdmin')
+   }
+   res.render('Welcome')
    } catch (err) {
     
     res.render('login',{msg:err.message});
    }
 };
+
+

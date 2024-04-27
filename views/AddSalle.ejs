@@ -14,7 +14,7 @@
     <h2 class="text-center mt-5 mb-4">Add Salle</h2>
     <div class="row justify-content-center">
       <div class="col-lg-6">
-        <form action="/salle/create" method="POST" >
+        <form action="/salle/create/<%=tokenData%>" method="POST" >
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="name" name="name" required>

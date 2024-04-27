@@ -24,7 +24,8 @@ exports.create = async (req, res) => {
 };
 // Retrieve all users from the database.
 exports.findAll = async (req, res) => {
-    try {
+    res.locals.tokenData = req.params.token;
+        try {
         const user = await UserModel.find();
         res.render('ListUser',{users: user});;
     } catch(error) {
@@ -66,13 +67,14 @@ exports.update = async (req, res) => {
 };
 // Delete a user with the specified id in the request
 exports.destroy = async (req, res) => {
+    res.locals.tokenData = req.params.token;
     await UserModel.findByIdAndDelete(req.params.id).then(data => {
         if (!data) {
           res.status(404).send({
             message: `User not found.`
           });
         } else {
-          res.redirect("/user/")
+          res.redirect("/user/"+req.params.token)
         }
     }).catch(err => {
         res.status(500).send({
