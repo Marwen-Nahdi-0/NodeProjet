@@ -29,9 +29,9 @@
               a="/reservation/delete/"+reservation.id+"/"+tokenData %> 
            <tr>
             <td><%=reservation.client.username%></td>
-              <td><%=reservation.salle.Name%></td>
+              <td><%=reservation.salle%></td>
               <td><%=reservation.Date%></td>
-              <td><%=reservation.salle.Price%></td>
+              <td><%=reservation.salle%></td>
               <td>
                <a href=<%=a %>> <button type="button" class="btn btn-danger">Delete</button></a>
                 

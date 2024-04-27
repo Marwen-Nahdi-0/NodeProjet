@@ -6,7 +6,7 @@ exports.register =async (req,res)=>{
     try {
         console.log(req.body.email);
         const {username,password,email}=req.body;
-        role="Admin"
+        role="user"
         const user = new User({username,email,password,role});
         await user.save();
         console.log(user)

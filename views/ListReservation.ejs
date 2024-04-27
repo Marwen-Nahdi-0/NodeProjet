@@ -24,15 +24,15 @@
             </tr>
           </thead>
           <tbody>
-            <%if( reservations.length>0){ %>
+            <%if( reservations.length==0){ %>
               <h2 class="text-center mt-5 mb-4">You don't have any reservation</h2>
             <%}else{
             reservations.forEach(function(reservation) { 
               a="/reservation/delete/"+reservation.id+"/"+tokenData %> 
            <tr>
-              <td><%=reservation.salle.Name%></td>
+              <td><%=reservation.salle%></td>
               <td><%=reservation.Date%></td>
-              <td><%=reservation.salle.Price%></td>
+              <td><%=reservation.salle%></td>
               <td>
                <a href=<%=a %>> <button type="button" class="btn btn-danger">Cancel</button></a>
                 <button type="button" class="btn btn-primary">Modify</button>
